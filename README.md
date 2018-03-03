@@ -23,32 +23,35 @@ This project is using H2 in-memory database to store sample user information. To
 Overall project structure is shown below:
 
 ```
-+---main
-|   +---java
-|   |   \---com
-|   |       \---pavikumbhar
-|   |           \--	javaheart		
-				+---common
-|   |           +---entity
-|   |           +---profile
-|   |           |   \---endpoint
-|   |           +---security
-|   |           |   +---auth
-|   |           |   |   +---ajax
-|   |           |   |   \---jwt
-|   |           |   |       +---extractor
-|   |           |   |       \---verifier
-|   |           |   +---config
-|   |           |   +---endpoint
-|   |           |   +---exceptions
-|   |           |   \---model
-|   |           |       \---token
-|   |           \---user
-|   |               +---repository
-|   |               \---service
-|   \---resources
-|       +---static
-|       \---templates
+├───main
+│   ├───java
+│   │   └───com
+│   │       └───pavikumbhar
+│   │           └───javaheart
+│   │               ├───common
+│   │               ├───entity
+│   │               ├───profile
+│   │               │   └───endpoint
+│   │               ├───security
+│   │               │   ├───auth
+│   │               │   │   ├───ajax
+│   │               │   │   └───jwt
+│   │               │   │       ├───extractor
+│   │               │   │       └───verifier
+│   │               │   ├───config
+│   │               │   ├───endpoint
+│   │               │   ├───exceptions
+│   │               │   └───model
+│   │               │       └───token
+│   │               └───user
+│   │                   ├───repository
+│   │                   └───service
+│   └───resources
+└───test
+    └───java
+        └───com
+            └───pavikumbhar
+                └───javaheart
 ```
 
 ### <a name="ajax-authentication" id="ajax-authentication">Ajax authentication</a>
