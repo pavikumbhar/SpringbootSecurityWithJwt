@@ -167,14 +167,14 @@ In this tutorial we'll use ```jti``` claim to maintain list of blacklisted or re
 Decoded Refresh token has three parts: Header, Claims and Signature as shown below:
 
 Header
-```
+```json
 {
   "alg": "HS512"
 }
 ```
 
 Claims
-```
+```json
 {
   "sub": "pavikumbhar@gmail.com",
   "scopes": [
@@ -201,7 +201,7 @@ De-serialization and basic validation of the incoming JSON payload is done in th
 In case of a successful authentication ```AjaxLoginProcessingFilter#successfulAuthentication``` method is invoked.
 In case of failure authentication  ```AjaxLoginProcessingFilter#unsuccessfulAuthentication``` method is invoked.
 
-```language-java
+```java
 public class AjaxLoginProcessingFilter extends AbstractAuthenticationProcessingFilter {
     private static Logger logger = LoggerFactory.getLogger(AjaxLoginProcessingFilter.class);
 
@@ -263,7 +263,7 @@ Responsibility of the AjaxAuthenticationProvider class is to:
 3. Create UserContext and populate it with user data you need (in our case just ```username``` and ```user privileges```)
 4. Upon successful authentication delegate creation of JWT Token to ```AjaxAwareAuthenticationSuccessHandler```
 
-```language-java
+```java
 @Component
 public class AjaxAuthenticationProvider implements AuthenticationProvider {
     private final BCryptPasswordEncoder encoder;
@@ -312,7 +312,7 @@ We'll implement AuthenticationSuccessHandler interface that is called when clien
 
 AjaxAwareAuthenticationSuccessHandler class is our custom implementation of AuthenticationSuccessHandler interface. Responsibility of this class is to add JSON payload containing JWT Access and Refresh tokens into the HTTP response body.
 
-```language-java
+```java
 @Component
 public class AjaxAwareAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
     private final ObjectMapper mapper;
@@ -364,7 +364,7 @@ Let's focus for a moment on how JWT Access token is created. In this tutorial we
 
 Make sure that ```JJWT``` dependency is included in your ```pom.xml```.
 
-```language-xml
+```xml
 <dependency>
     <groupId>io.jsonwebtoken</groupId>
     <artifactId>jjwt</artifactId>
@@ -379,7 +379,7 @@ Method ```JwtTokenFactory#createAccessJwtToken```  creates signed JWT Access tok
 Method ```JwtTokenFactory#createRefreshToken``` creates signed JWT Refresh token.
 
 
-```language-java
+```java
 @Component
 public class JwtTokenFactory {
     private final JwtSettings settings;
@@ -449,7 +449,7 @@ Please note that if you are instantiating Claims object outside of ```Jwts.build
 
 AjaxAwareAuthenticationFailureHandler is invoked by ```AjaxLoginProcessingFilter``` in case of authentication failures. You can design specific error messages based on exception type that have occurred during the authentication process.
 
-```language-java
+```java
 @Component
 public class AjaxAwareAuthenticationFailureHandler implements AuthenticationFailureHandler {
     private final ObjectMapper mapper;
@@ -549,7 +549,7 @@ This filter has the following responsibilities:
 
 Please ensure that ```chain.doFilter(request, response)``` is invoked upon successful authentication. You want processing of the request to advance to the next filter, because very last one filter ```FilterSecurityInterceptor#doFilter``` is responsible to actually invoke method in your controller that is handling requested API resource.
 
-```language-java
+```java
 public class JwtTokenAuthenticationProcessingFilter extends AbstractAuthenticationProcessingFilter {
     private final AuthenticationFailureHandler failureHandler;
     private final TokenExtractor tokenExtractor;
@@ -592,7 +592,7 @@ public class JwtTokenAuthenticationProcessingFilter extends AbstractAuthenticati
 
 JwtHeaderTokenExtractor is very simple class used to extract Authorization token from header. You can extend TokenExtractor interface and provide your custom implementation that will for example extract token from URL.
 
-```language-java
+```java
 @Component
 public class JwtHeaderTokenExtractor implements TokenExtractor {
     public static String HEADER_PREFIX = "Bearer ";
@@ -620,7 +620,7 @@ JwtAuthenticationProvider has the following responsibilities:
 2. Extract identity and authorization claims from Access token and use them to create UserContext
 3. If Access token is malformed, expired or simply if token is not signed with the appropriate signing key Authentication exception will be thrown
 
-```language-java
+```java
 @Component
 public class JwtAuthenticationProvider implements AuthenticationProvider {
     private final JwtSettings jwtSettings;
@@ -658,7 +658,7 @@ public class JwtAuthenticationProvider implements AuthenticationProvider {
 
 JwtTokenAuthenticationProcessingFilter  filter is configured to skip following endpoints: ```/api/auth/login``` and ```/api/auth/token```. This is achieved with ```SkipPathRequestMatcher``` implementation of ```RequestMatcher```.
 
-```language-java
+```java
 public class SkipPathRequestMatcher implements RequestMatcher {
     private OrRequestMatcher matchers;
     private RequestMatcher processingMatcher;
@@ -693,7 +693,7 @@ Following beans are configured and instantiated in this class:
 
 Also, inside ```WebSecurityConfig#configure(HttpSecurity http)``` method we'll configure patterns to define protected/unprotected API endpoints. Please note that we have disabled CSRF protection because we are not using Cookies.
 
-```language-java
+```java
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
@@ -776,7 +776,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 BCrypt encoder that is in AjaxAuthenticationProvider.
 
-```language-java
+```java
 @Configuration
 public class PasswordEncoderConfig {
     @Bean
@@ -790,7 +790,7 @@ public class PasswordEncoderConfig {
 
 This is dummy class. You should ideally implement your own TokenVerifier to check for revoked tokens.
 
-```language-java
+```java
 @Component
 public class BloomFilterTokenVerifier implements TokenVerifier {
     @Override
