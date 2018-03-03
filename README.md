@@ -17,7 +17,8 @@ We will cover the following two scenarios:
 
 Please check out the sample code/project from the following GitHub repository: https://github.com/pavikumbhar/SpringbootSecurityWithJwt before going further reading the article.
 
-This project is using H2 in-memory database to store sample user information. To make things easier I have created data fixtures and configured Spring Boot to automatically load them on the application startup (```/jwt-demo/src/main/resources/data.sql```).
+This project is using H2 in-memory database to store sample user information. To make things easier I have created data fixtures and configured Spring Boot to automatically load them on the application startup (```/SpringbootSecurityWithJwt
+/src/main/resources/data.sql```).
 
 Overall project structure is shown below:
 
