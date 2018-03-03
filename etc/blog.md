@@ -15,7 +15,7 @@ We will cover the following two scenarios:
 
 ### <a name="pre-requisites" id="pre-requisites">PRE-requisites</a>
 
-Please check out the sample code/project from the following GitHub repository: https://github.com/svlada/springboot-security-jwt before going further reading the article.
+Please check out the sample code/project from the following GitHub repository: https://github.com/pavikumbhar/SpringbootSecurityWithJwt before going further reading the article.
 
 This project is using H2 in-memory database to store sample user information. To make things easier I have created data fixtures and configured Spring Boot to automatically load them on the application startup (```/jwt-demo/src/main/resources/data.sql```).
 
@@ -25,8 +25,9 @@ Overall project structure is shown below:
 +---main
 |   +---java
 |   |   \---com
-|   |       \---svlada
-|   |           +---common
+|   |       \---pavikumbhar
+|   |           \--	javaheart		
+				+---common
 |   |           +---entity
 |   |           +---profile
 |   |           |   \---endpoint
@@ -82,7 +83,7 @@ Content-Type: application/json
 Cache-Control: no-cache
 
 {
-    "username": "svlada@gmail.com",
+    "username": "pavikumbhar@gmail.com",
     "password": "test1234"
 }
 ```
@@ -91,7 +92,7 @@ CURL:
 
 ```
 curl -X POST -H "X-Requested-With: XMLHttpRequest" -H "Content-Type: application/json" -H "Cache-Control: no-cache" -d '{
-    "username": "svlada@gmail.com",
+    "username": "pavikumbhar@gmail.com",
     "password": "test1234"
 }' "http://localhost:9966/api/auth/login"
 ```
@@ -137,12 +138,12 @@ Header
 Claims
 ```
 {
-  "sub": "svlada@gmail.com",
+  "sub": "pavikumbhar@gmail.com",
   "scopes": [
     "ROLE_ADMIN",
     "ROLE_PREMIUM_MEMBER"
   ],
-  "iss": "http://svlada.com",
+  "iss": "http://pavikumbhar.com",
   "iat": 1472033308,
   "exp": 1472034208
 }
@@ -171,11 +172,11 @@ Header
 Claims
 ```
 {
-  "sub": "svlada@gmail.com",
+  "sub": "pavikumbhar@gmail.com",
   "scopes": [
     "ROLE_REFRESH_TOKEN"
   ],
-  "iss": "http://svlada.com",
+  "iss": "http://pavikumbhar.com",
   "jti": "90afe78c-1d2e-4869-a77e-1d754b60e0ce",
   "iat": 1472033308,
   "exp": 1472036908
@@ -799,29 +800,6 @@ public class BloomFilterTokenVerifier implements TokenVerifier {
 
 I heard people whispering on the web that loosing a JWT token is like loosing your house keys. So be careful.
 
-## References
-
-### [I don’t see the point in Revoking or Blacklisting JWT](https://www.dinochiesa.net/?p=1388)
-
-### [Spring Security Architecture - Dave Syer](https://github.com/dsyer/spring-security-architecture)
-
-### [Invalidating JWT](http://stackoverflow.com/questions/21978658/invalidating-json-web-tokens/36884683#36884683)
-
-### [Secure and stateless JWT implementation](http://stackoverflow.com/questions/38557379/secure-and-stateless-jwt-implementation)
-
-### [Learn JWT](https://github.com/dwyl/learn-json-web-tokens)
-
-### [Opaque access tokens and cloud foundry](https://www.cloudfoundry.org/opaque-access-tokens-cloud-foundry/)
-
-### [The unspoken vulnerability of JWTS](http://by.jtl.xyz/2016/06/the-unspoken-vulnerability-of-jwts.html)
-
-### [How To Control User Identity Within Micro-services](http://nordicapis.com/how-to-control-user-identity-within-microservices/)
-
-### [Why Does OAuth v2 Have Both Access and Refresh Tokens?](http://stackoverflow.com/questions/3487991/why-does-oauth-v2-have-both-access-and-refresh-tokens/12885823)
-
-### [RFC-6749](https://tools.ietf.org/html/rfc6749)
-
-### [Are breaches of JWT-based servers more damaging?](https://www.sslvpn.online/are-breaches-of-jwt-based-servers-more-damaging/)
 
 
 
